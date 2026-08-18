@@ -1,0 +1,27 @@
+{
+  "name": "@erp/configuration-contract",
+  "version": "0.1.0",
+  "description": "Single source of truth for the master-data / catalog configuration draft schema, shared by Erp-backend and Erp-platform-onboarding.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "watch": "tsc -p tsconfig.json --watch"
+  },
+  "peerDependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "zod": "^3.24.1"
+  }
+}
