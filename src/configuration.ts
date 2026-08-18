@@ -139,7 +139,7 @@ export const productTypeSchema = z.object({
     expiry: z.boolean().default(false)
   }),
   valuationMethod: z.enum(valuationMethods).default("MOVING_AVERAGE"),
-  properties: z.array(propertyAssignmentSchema).max(50).default([]),
+  properties: z.array(propertyAssignmentSchema).default([]),
   quantityDimensions: z.array(dimensionSchema).min(1)
 });
 
