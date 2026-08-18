@@ -14,310 +14,458 @@ export declare const workflowPermissions: readonly ["purchase.create", "purchase
 /** stableKey allows dots and hyphens (workflow/lifecycle keys), unlike the base `key` schema. */
 export declare const stableKey: z.ZodString;
 export declare const conditionReferenceSchema: z.ZodObject<{
-    key: z.ZodEnum<{
-        always: "always";
-        "document.amount_gte": "document.amount_gte";
-        "document.fully_received": "document.fully_received";
-        "document.fully_fulfilled": "document.fully_fulfilled";
-        "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-        "approval.is_complete": "approval.is_complete";
-    }>;
+    key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
     args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-}, z.core.$strip>;
+}, "strip", z.ZodTypeAny, {
+    key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+    args: Record<string, unknown>;
+}, {
+    key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+    args?: Record<string, unknown> | undefined;
+}>;
 export declare const effectReferenceSchema: z.ZodObject<{
-    key: z.ZodEnum<{
-        "purchase.submit": "purchase.submit";
-        "purchase.record_approval": "purchase.record_approval";
-        "purchase.create_receipt": "purchase.create_receipt";
-        "receipt.post": "receipt.post";
-        "sales.confirm": "sales.confirm";
-        "sales.allocate": "sales.allocate";
-        "sales.create_issue": "sales.create_issue";
-        "sales.produced": "sales.produced";
-        "sales.dispatch": "sales.dispatch";
-        "sales.cancel": "sales.cancel";
-        "sales.submit": "sales.submit";
-        "sales.approve": "sales.approve";
-        "sales.mark_produced": "sales.mark_produced";
-        "sales.mark_dispatched": "sales.mark_dispatched";
-        "sales.complete": "sales.complete";
-        "issue.post": "issue.post";
-        "issue.customer_return": "issue.customer_return";
-        "transfer.dispatch": "transfer.dispatch";
-        "transfer.receive": "transfer.receive";
-        "adjustment.post": "adjustment.post";
-        "inventory.reverse": "inventory.reverse";
-        "outbox.emit": "outbox.emit";
-    }>;
+    key: z.ZodEnum<["purchase.submit", "purchase.record_approval", "purchase.create_receipt", "receipt.post", "sales.confirm", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "sales.cancel", "sales.submit", "sales.approve", "sales.mark_produced", "sales.mark_dispatched", "sales.complete", "issue.post", "issue.customer_return", "transfer.dispatch", "transfer.receive", "adjustment.post", "inventory.reverse", "outbox.emit"]>;
     args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-}, z.core.$strip>;
+}, "strip", z.ZodTypeAny, {
+    key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+    args: Record<string, unknown>;
+}, {
+    key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+    args?: Record<string, unknown> | undefined;
+}>;
 export declare const lifecycleStateSchema: z.ZodObject<{
     key: z.ZodString;
     label: z.ZodString;
-    canonicalStatus: z.ZodEnum<{
-        DRAFT: "DRAFT";
-        PENDING_APPROVAL: "PENDING_APPROVAL";
-        APPROVED: "APPROVED";
-        RELEASED: "RELEASED";
-        CONFIRMED: "CONFIRMED";
-        ALLOCATED: "ALLOCATED";
-        PARTIAL: "PARTIAL";
-        PARTIALLY_SHIPPED: "PARTIALLY_SHIPPED";
-        SHIPPED: "SHIPPED";
-        POSTED: "POSTED";
-        CLOSED: "CLOSED";
-        CANCELLED: "CANCELLED";
-        REVERSED: "REVERSED";
-    }>;
+    canonicalStatus: z.ZodEnum<["DRAFT", "PENDING_APPROVAL", "APPROVED", "RELEASED", "CONFIRMED", "ALLOCATED", "PARTIAL", "PARTIALLY_SHIPPED", "SHIPPED", "POSTED", "CLOSED", "CANCELLED", "REVERSED"]>;
     terminal: z.ZodDefault<z.ZodBoolean>;
-}, z.core.$strip>;
+}, "strip", z.ZodTypeAny, {
+    key: string;
+    label: string;
+    canonicalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "RELEASED" | "CONFIRMED" | "ALLOCATED" | "PARTIAL" | "PARTIALLY_SHIPPED" | "SHIPPED" | "POSTED" | "CLOSED" | "CANCELLED" | "REVERSED";
+    terminal: boolean;
+}, {
+    key: string;
+    label: string;
+    canonicalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "RELEASED" | "CONFIRMED" | "ALLOCATED" | "PARTIAL" | "PARTIALLY_SHIPPED" | "SHIPPED" | "POSTED" | "CLOSED" | "CANCELLED" | "REVERSED";
+    terminal?: boolean | undefined;
+}>;
 export declare const approvalPolicySchema: z.ZodObject<{
     allowRequesterApproval: z.ZodDefault<z.ZodBoolean>;
     allowSameApproverAcrossLevels: z.ZodDefault<z.ZodBoolean>;
+    /** Minimum number of distinct approve actions required before approval.is_complete is true. */
     requiredApprovers: z.ZodDefault<z.ZodNumber>;
-}, z.core.$strip>;
+}, "strip", z.ZodTypeAny, {
+    allowRequesterApproval: boolean;
+    allowSameApproverAcrossLevels: boolean;
+    requiredApprovers: number;
+}, {
+    allowRequesterApproval?: boolean | undefined;
+    allowSameApproverAcrossLevels?: boolean | undefined;
+    requiredApprovers?: number | undefined;
+}>;
 export declare const lifecycleTransitionSchema: z.ZodObject<{
     key: z.ZodString;
     actionKey: z.ZodString;
-    from: z.ZodArray<z.ZodString>;
-    permission: z.ZodEnum<{
-        "receipt.post": "receipt.post";
-        "sales.confirm": "sales.confirm";
-        "sales.allocate": "sales.allocate";
-        "sales.dispatch": "sales.dispatch";
-        "sales.approve": "sales.approve";
-        "purchase.approve": "purchase.approve";
-        "purchase.create": "purchase.create";
-        "purchase.approve.level1": "purchase.approve.level1";
-        "purchase.approve.level2": "purchase.approve.level2";
-        "receipt.create": "receipt.create";
-        "inventory.adjust": "inventory.adjust";
-        "inventory.transfer": "inventory.transfer";
-        "sales.create": "sales.create";
-        "sales.issue": "sales.issue";
-        "production.mark_produced": "production.mark_produced";
-    }>;
-    inputSchema: z.ZodDefault<z.ZodEnum<{
-        "purchase.create_receipt": "purchase.create_receipt";
-        "sales.allocate": "sales.allocate";
-        "sales.create_issue": "sales.create_issue";
-        "sales.produced": "sales.produced";
-        "sales.dispatch": "sales.dispatch";
-        "inventory.reverse": "inventory.reverse";
-        none: "none";
-        "purchase.approve": "purchase.approve";
-    }>>;
+    from: z.ZodArray<z.ZodString, "many">;
+    permission: z.ZodEnum<["purchase.create", "purchase.approve", "purchase.approve.level1", "purchase.approve.level2", "receipt.create", "receipt.post", "inventory.adjust", "inventory.transfer", "sales.create", "sales.confirm", "sales.allocate", "sales.issue", "sales.approve", "production.mark_produced", "sales.dispatch"]>;
+    inputSchema: z.ZodDefault<z.ZodEnum<["none", "purchase.approve", "purchase.create_receipt", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "inventory.reverse"]>>;
     approvalPolicy: z.ZodOptional<z.ZodObject<{
         allowRequesterApproval: z.ZodDefault<z.ZodBoolean>;
         allowSameApproverAcrossLevels: z.ZodDefault<z.ZodBoolean>;
+        /** Minimum number of distinct approve actions required before approval.is_complete is true. */
         requiredApprovers: z.ZodDefault<z.ZodNumber>;
-    }, z.core.$strip>>;
+    }, "strip", z.ZodTypeAny, {
+        allowRequesterApproval: boolean;
+        allowSameApproverAcrossLevels: boolean;
+        requiredApprovers: number;
+    }, {
+        allowRequesterApproval?: boolean | undefined;
+        allowSameApproverAcrossLevels?: boolean | undefined;
+        requiredApprovers?: number | undefined;
+    }>>;
     guards: z.ZodDefault<z.ZodArray<z.ZodObject<{
-        key: z.ZodEnum<{
-            always: "always";
-            "document.amount_gte": "document.amount_gte";
-            "document.fully_received": "document.fully_received";
-            "document.fully_fulfilled": "document.fully_fulfilled";
-            "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-            "approval.is_complete": "approval.is_complete";
-        }>;
+        key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
         args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-    }, z.core.$strip>>>;
+    }, "strip", z.ZodTypeAny, {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args: Record<string, unknown>;
+    }, {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args?: Record<string, unknown> | undefined;
+    }>, "many">>;
     branches: z.ZodArray<z.ZodObject<{
         when: z.ZodOptional<z.ZodObject<{
-            key: z.ZodEnum<{
-                always: "always";
-                "document.amount_gte": "document.amount_gte";
-                "document.fully_received": "document.fully_received";
-                "document.fully_fulfilled": "document.fully_fulfilled";
-                "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-                "approval.is_complete": "approval.is_complete";
-            }>;
+            key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
             args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-        }, z.core.$strip>>;
+        }, "strip", z.ZodTypeAny, {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        }, {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        }>>;
         to: z.ZodString;
         effects: z.ZodDefault<z.ZodArray<z.ZodObject<{
-            key: z.ZodEnum<{
-                "purchase.submit": "purchase.submit";
-                "purchase.record_approval": "purchase.record_approval";
-                "purchase.create_receipt": "purchase.create_receipt";
-                "receipt.post": "receipt.post";
-                "sales.confirm": "sales.confirm";
-                "sales.allocate": "sales.allocate";
-                "sales.create_issue": "sales.create_issue";
-                "sales.produced": "sales.produced";
-                "sales.dispatch": "sales.dispatch";
-                "sales.cancel": "sales.cancel";
-                "sales.submit": "sales.submit";
-                "sales.approve": "sales.approve";
-                "sales.mark_produced": "sales.mark_produced";
-                "sales.mark_dispatched": "sales.mark_dispatched";
-                "sales.complete": "sales.complete";
-                "issue.post": "issue.post";
-                "issue.customer_return": "issue.customer_return";
-                "transfer.dispatch": "transfer.dispatch";
-                "transfer.receive": "transfer.receive";
-                "adjustment.post": "adjustment.post";
-                "inventory.reverse": "inventory.reverse";
-                "outbox.emit": "outbox.emit";
-            }>;
+            key: z.ZodEnum<["purchase.submit", "purchase.record_approval", "purchase.create_receipt", "receipt.post", "sales.confirm", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "sales.cancel", "sales.submit", "sales.approve", "sales.mark_produced", "sales.mark_dispatched", "sales.complete", "issue.post", "issue.customer_return", "transfer.dispatch", "transfer.receive", "adjustment.post", "inventory.reverse", "outbox.emit"]>;
             args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-        }, z.core.$strip>>>;
-    }, z.core.$strip>>;
-}, z.core.$strip>;
+        }, "strip", z.ZodTypeAny, {
+            key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+            args: Record<string, unknown>;
+        }, {
+            key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+            args?: Record<string, unknown> | undefined;
+        }>, "many">>;
+    }, "strip", z.ZodTypeAny, {
+        to: string;
+        effects: {
+            key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+            args: Record<string, unknown>;
+        }[];
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        } | undefined;
+    }, {
+        to: string;
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        } | undefined;
+        effects?: {
+            key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+            args?: Record<string, unknown> | undefined;
+        }[] | undefined;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    key: string;
+    actionKey: string;
+    from: string[];
+    permission: "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.dispatch" | "sales.approve" | "purchase.approve" | "purchase.create" | "purchase.approve.level1" | "purchase.approve.level2" | "receipt.create" | "inventory.adjust" | "inventory.transfer" | "sales.create" | "sales.issue" | "production.mark_produced";
+    inputSchema: "purchase.create_receipt" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "inventory.reverse" | "none" | "purchase.approve";
+    guards: {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args: Record<string, unknown>;
+    }[];
+    branches: {
+        to: string;
+        effects: {
+            key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+            args: Record<string, unknown>;
+        }[];
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        } | undefined;
+    }[];
+    approvalPolicy?: {
+        allowRequesterApproval: boolean;
+        allowSameApproverAcrossLevels: boolean;
+        requiredApprovers: number;
+    } | undefined;
+}, {
+    key: string;
+    actionKey: string;
+    from: string[];
+    permission: "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.dispatch" | "sales.approve" | "purchase.approve" | "purchase.create" | "purchase.approve.level1" | "purchase.approve.level2" | "receipt.create" | "inventory.adjust" | "inventory.transfer" | "sales.create" | "sales.issue" | "production.mark_produced";
+    branches: {
+        to: string;
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        } | undefined;
+        effects?: {
+            key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+            args?: Record<string, unknown> | undefined;
+        }[] | undefined;
+    }[];
+    inputSchema?: "purchase.create_receipt" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "inventory.reverse" | "none" | "purchase.approve" | undefined;
+    approvalPolicy?: {
+        allowRequesterApproval?: boolean | undefined;
+        allowSameApproverAcrossLevels?: boolean | undefined;
+        requiredApprovers?: number | undefined;
+    } | undefined;
+    guards?: {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args?: Record<string, unknown> | undefined;
+    }[] | undefined;
+}>;
 export declare const lifecycleDefinitionSchema: z.ZodObject<{
     stableKey: z.ZodString;
-    documentType: z.ZodEnum<{
-        purchase_order: "purchase_order";
-        goods_receipt: "goods_receipt";
-        sales_order: "sales_order";
-        stock_issue: "stock_issue";
-        stock_transfer: "stock_transfer";
-        stock_adjustment: "stock_adjustment";
-        inventory_posting: "inventory_posting";
-    }>;
+    documentType: z.ZodEnum<["purchase_order", "goods_receipt", "sales_order", "stock_issue", "stock_transfer", "stock_adjustment", "inventory_posting"]>;
     version: z.ZodNumber;
     initialState: z.ZodString;
     states: z.ZodArray<z.ZodObject<{
         key: z.ZodString;
         label: z.ZodString;
-        canonicalStatus: z.ZodEnum<{
-            DRAFT: "DRAFT";
-            PENDING_APPROVAL: "PENDING_APPROVAL";
-            APPROVED: "APPROVED";
-            RELEASED: "RELEASED";
-            CONFIRMED: "CONFIRMED";
-            ALLOCATED: "ALLOCATED";
-            PARTIAL: "PARTIAL";
-            PARTIALLY_SHIPPED: "PARTIALLY_SHIPPED";
-            SHIPPED: "SHIPPED";
-            POSTED: "POSTED";
-            CLOSED: "CLOSED";
-            CANCELLED: "CANCELLED";
-            REVERSED: "REVERSED";
-        }>;
+        canonicalStatus: z.ZodEnum<["DRAFT", "PENDING_APPROVAL", "APPROVED", "RELEASED", "CONFIRMED", "ALLOCATED", "PARTIAL", "PARTIALLY_SHIPPED", "SHIPPED", "POSTED", "CLOSED", "CANCELLED", "REVERSED"]>;
         terminal: z.ZodDefault<z.ZodBoolean>;
-    }, z.core.$strip>>;
+    }, "strip", z.ZodTypeAny, {
+        key: string;
+        label: string;
+        canonicalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "RELEASED" | "CONFIRMED" | "ALLOCATED" | "PARTIAL" | "PARTIALLY_SHIPPED" | "SHIPPED" | "POSTED" | "CLOSED" | "CANCELLED" | "REVERSED";
+        terminal: boolean;
+    }, {
+        key: string;
+        label: string;
+        canonicalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "RELEASED" | "CONFIRMED" | "ALLOCATED" | "PARTIAL" | "PARTIALLY_SHIPPED" | "SHIPPED" | "POSTED" | "CLOSED" | "CANCELLED" | "REVERSED";
+        terminal?: boolean | undefined;
+    }>, "many">;
     transitions: z.ZodDefault<z.ZodArray<z.ZodObject<{
         key: z.ZodString;
         actionKey: z.ZodString;
-        from: z.ZodArray<z.ZodString>;
-        permission: z.ZodEnum<{
-            "receipt.post": "receipt.post";
-            "sales.confirm": "sales.confirm";
-            "sales.allocate": "sales.allocate";
-            "sales.dispatch": "sales.dispatch";
-            "sales.approve": "sales.approve";
-            "purchase.approve": "purchase.approve";
-            "purchase.create": "purchase.create";
-            "purchase.approve.level1": "purchase.approve.level1";
-            "purchase.approve.level2": "purchase.approve.level2";
-            "receipt.create": "receipt.create";
-            "inventory.adjust": "inventory.adjust";
-            "inventory.transfer": "inventory.transfer";
-            "sales.create": "sales.create";
-            "sales.issue": "sales.issue";
-            "production.mark_produced": "production.mark_produced";
-        }>;
-        inputSchema: z.ZodDefault<z.ZodEnum<{
-            "purchase.create_receipt": "purchase.create_receipt";
-            "sales.allocate": "sales.allocate";
-            "sales.create_issue": "sales.create_issue";
-            "sales.produced": "sales.produced";
-            "sales.dispatch": "sales.dispatch";
-            "inventory.reverse": "inventory.reverse";
-            none: "none";
-            "purchase.approve": "purchase.approve";
-        }>>;
+        from: z.ZodArray<z.ZodString, "many">;
+        permission: z.ZodEnum<["purchase.create", "purchase.approve", "purchase.approve.level1", "purchase.approve.level2", "receipt.create", "receipt.post", "inventory.adjust", "inventory.transfer", "sales.create", "sales.confirm", "sales.allocate", "sales.issue", "sales.approve", "production.mark_produced", "sales.dispatch"]>;
+        inputSchema: z.ZodDefault<z.ZodEnum<["none", "purchase.approve", "purchase.create_receipt", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "inventory.reverse"]>>;
         approvalPolicy: z.ZodOptional<z.ZodObject<{
             allowRequesterApproval: z.ZodDefault<z.ZodBoolean>;
             allowSameApproverAcrossLevels: z.ZodDefault<z.ZodBoolean>;
+            /** Minimum number of distinct approve actions required before approval.is_complete is true. */
             requiredApprovers: z.ZodDefault<z.ZodNumber>;
-        }, z.core.$strip>>;
+        }, "strip", z.ZodTypeAny, {
+            allowRequesterApproval: boolean;
+            allowSameApproverAcrossLevels: boolean;
+            requiredApprovers: number;
+        }, {
+            allowRequesterApproval?: boolean | undefined;
+            allowSameApproverAcrossLevels?: boolean | undefined;
+            requiredApprovers?: number | undefined;
+        }>>;
         guards: z.ZodDefault<z.ZodArray<z.ZodObject<{
-            key: z.ZodEnum<{
-                always: "always";
-                "document.amount_gte": "document.amount_gte";
-                "document.fully_received": "document.fully_received";
-                "document.fully_fulfilled": "document.fully_fulfilled";
-                "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-                "approval.is_complete": "approval.is_complete";
-            }>;
+            key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
             args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-        }, z.core.$strip>>>;
+        }, "strip", z.ZodTypeAny, {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        }, {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        }>, "many">>;
         branches: z.ZodArray<z.ZodObject<{
             when: z.ZodOptional<z.ZodObject<{
-                key: z.ZodEnum<{
-                    always: "always";
-                    "document.amount_gte": "document.amount_gte";
-                    "document.fully_received": "document.fully_received";
-                    "document.fully_fulfilled": "document.fully_fulfilled";
-                    "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-                    "approval.is_complete": "approval.is_complete";
-                }>;
+                key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
                 args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-            }, z.core.$strip>>;
+            }, "strip", z.ZodTypeAny, {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args: Record<string, unknown>;
+            }, {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args?: Record<string, unknown> | undefined;
+            }>>;
             to: z.ZodString;
             effects: z.ZodDefault<z.ZodArray<z.ZodObject<{
-                key: z.ZodEnum<{
-                    "purchase.submit": "purchase.submit";
-                    "purchase.record_approval": "purchase.record_approval";
-                    "purchase.create_receipt": "purchase.create_receipt";
-                    "receipt.post": "receipt.post";
-                    "sales.confirm": "sales.confirm";
-                    "sales.allocate": "sales.allocate";
-                    "sales.create_issue": "sales.create_issue";
-                    "sales.produced": "sales.produced";
-                    "sales.dispatch": "sales.dispatch";
-                    "sales.cancel": "sales.cancel";
-                    "sales.submit": "sales.submit";
-                    "sales.approve": "sales.approve";
-                    "sales.mark_produced": "sales.mark_produced";
-                    "sales.mark_dispatched": "sales.mark_dispatched";
-                    "sales.complete": "sales.complete";
-                    "issue.post": "issue.post";
-                    "issue.customer_return": "issue.customer_return";
-                    "transfer.dispatch": "transfer.dispatch";
-                    "transfer.receive": "transfer.receive";
-                    "adjustment.post": "adjustment.post";
-                    "inventory.reverse": "inventory.reverse";
-                    "outbox.emit": "outbox.emit";
-                }>;
+                key: z.ZodEnum<["purchase.submit", "purchase.record_approval", "purchase.create_receipt", "receipt.post", "sales.confirm", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "sales.cancel", "sales.submit", "sales.approve", "sales.mark_produced", "sales.mark_dispatched", "sales.complete", "issue.post", "issue.customer_return", "transfer.dispatch", "transfer.receive", "adjustment.post", "inventory.reverse", "outbox.emit"]>;
                 args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-            }, z.core.$strip>>>;
-        }, z.core.$strip>>;
-    }, z.core.$strip>>>;
-}, z.core.$strip>;
+            }, "strip", z.ZodTypeAny, {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args: Record<string, unknown>;
+            }, {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args?: Record<string, unknown> | undefined;
+            }>, "many">>;
+        }, "strip", z.ZodTypeAny, {
+            to: string;
+            effects: {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args: Record<string, unknown>;
+            }[];
+            when?: {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args: Record<string, unknown>;
+            } | undefined;
+        }, {
+            to: string;
+            when?: {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args?: Record<string, unknown> | undefined;
+            } | undefined;
+            effects?: {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args?: Record<string, unknown> | undefined;
+            }[] | undefined;
+        }>, "many">;
+    }, "strip", z.ZodTypeAny, {
+        key: string;
+        actionKey: string;
+        from: string[];
+        permission: "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.dispatch" | "sales.approve" | "purchase.approve" | "purchase.create" | "purchase.approve.level1" | "purchase.approve.level2" | "receipt.create" | "inventory.adjust" | "inventory.transfer" | "sales.create" | "sales.issue" | "production.mark_produced";
+        inputSchema: "purchase.create_receipt" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "inventory.reverse" | "none" | "purchase.approve";
+        guards: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        }[];
+        branches: {
+            to: string;
+            effects: {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args: Record<string, unknown>;
+            }[];
+            when?: {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args: Record<string, unknown>;
+            } | undefined;
+        }[];
+        approvalPolicy?: {
+            allowRequesterApproval: boolean;
+            allowSameApproverAcrossLevels: boolean;
+            requiredApprovers: number;
+        } | undefined;
+    }, {
+        key: string;
+        actionKey: string;
+        from: string[];
+        permission: "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.dispatch" | "sales.approve" | "purchase.approve" | "purchase.create" | "purchase.approve.level1" | "purchase.approve.level2" | "receipt.create" | "inventory.adjust" | "inventory.transfer" | "sales.create" | "sales.issue" | "production.mark_produced";
+        branches: {
+            to: string;
+            when?: {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args?: Record<string, unknown> | undefined;
+            } | undefined;
+            effects?: {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args?: Record<string, unknown> | undefined;
+            }[] | undefined;
+        }[];
+        inputSchema?: "purchase.create_receipt" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "inventory.reverse" | "none" | "purchase.approve" | undefined;
+        approvalPolicy?: {
+            allowRequesterApproval?: boolean | undefined;
+            allowSameApproverAcrossLevels?: boolean | undefined;
+            requiredApprovers?: number | undefined;
+        } | undefined;
+        guards?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        }[] | undefined;
+    }>, "many">>;
+}, "strip", z.ZodTypeAny, {
+    stableKey: string;
+    documentType: "purchase_order" | "goods_receipt" | "sales_order" | "stock_issue" | "stock_transfer" | "stock_adjustment" | "inventory_posting";
+    version: number;
+    initialState: string;
+    states: {
+        key: string;
+        label: string;
+        canonicalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "RELEASED" | "CONFIRMED" | "ALLOCATED" | "PARTIAL" | "PARTIALLY_SHIPPED" | "SHIPPED" | "POSTED" | "CLOSED" | "CANCELLED" | "REVERSED";
+        terminal: boolean;
+    }[];
+    transitions: {
+        key: string;
+        actionKey: string;
+        from: string[];
+        permission: "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.dispatch" | "sales.approve" | "purchase.approve" | "purchase.create" | "purchase.approve.level1" | "purchase.approve.level2" | "receipt.create" | "inventory.adjust" | "inventory.transfer" | "sales.create" | "sales.issue" | "production.mark_produced";
+        inputSchema: "purchase.create_receipt" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "inventory.reverse" | "none" | "purchase.approve";
+        guards: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        }[];
+        branches: {
+            to: string;
+            effects: {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args: Record<string, unknown>;
+            }[];
+            when?: {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args: Record<string, unknown>;
+            } | undefined;
+        }[];
+        approvalPolicy?: {
+            allowRequesterApproval: boolean;
+            allowSameApproverAcrossLevels: boolean;
+            requiredApprovers: number;
+        } | undefined;
+    }[];
+}, {
+    stableKey: string;
+    documentType: "purchase_order" | "goods_receipt" | "sales_order" | "stock_issue" | "stock_transfer" | "stock_adjustment" | "inventory_posting";
+    version: number;
+    initialState: string;
+    states: {
+        key: string;
+        label: string;
+        canonicalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "RELEASED" | "CONFIRMED" | "ALLOCATED" | "PARTIAL" | "PARTIALLY_SHIPPED" | "SHIPPED" | "POSTED" | "CLOSED" | "CANCELLED" | "REVERSED";
+        terminal?: boolean | undefined;
+    }[];
+    transitions?: {
+        key: string;
+        actionKey: string;
+        from: string[];
+        permission: "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.dispatch" | "sales.approve" | "purchase.approve" | "purchase.create" | "purchase.approve.level1" | "purchase.approve.level2" | "receipt.create" | "inventory.adjust" | "inventory.transfer" | "sales.create" | "sales.issue" | "production.mark_produced";
+        branches: {
+            to: string;
+            when?: {
+                key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+                args?: Record<string, unknown> | undefined;
+            } | undefined;
+            effects?: {
+                key: "purchase.submit" | "purchase.record_approval" | "purchase.create_receipt" | "receipt.post" | "sales.confirm" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "sales.cancel" | "sales.submit" | "sales.approve" | "sales.mark_produced" | "sales.mark_dispatched" | "sales.complete" | "issue.post" | "issue.customer_return" | "transfer.dispatch" | "transfer.receive" | "adjustment.post" | "inventory.reverse" | "outbox.emit";
+                args?: Record<string, unknown> | undefined;
+            }[] | undefined;
+        }[];
+        inputSchema?: "purchase.create_receipt" | "sales.allocate" | "sales.create_issue" | "sales.produced" | "sales.dispatch" | "inventory.reverse" | "none" | "purchase.approve" | undefined;
+        approvalPolicy?: {
+            allowRequesterApproval?: boolean | undefined;
+            allowSameApproverAcrossLevels?: boolean | undefined;
+            requiredApprovers?: number | undefined;
+        } | undefined;
+        guards?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        }[] | undefined;
+    }[] | undefined;
+}>;
 export declare const workflowNodeSchema: z.ZodObject<{
     key: z.ZodString;
-    type: z.ZodEnum<{
-        action: "action";
-        approval: "approval";
-        branch: "branch";
-        wait_for_event: "wait_for_event";
-        complete: "complete";
-    }>;
+    type: z.ZodEnum<["action", "approval", "branch", "wait_for_event", "complete"]>;
     actionKey: z.ZodOptional<z.ZodString>;
     eventType: z.ZodOptional<z.ZodString>;
     repeatable: z.ZodDefault<z.ZodBoolean>;
     inProgressStateKey: z.ZodOptional<z.ZodString>;
     completedStateKey: z.ZodOptional<z.ZodString>;
-}, z.core.$strip>;
+}, "strip", z.ZodTypeAny, {
+    key: string;
+    type: "action" | "approval" | "branch" | "wait_for_event" | "complete";
+    repeatable: boolean;
+    actionKey?: string | undefined;
+    eventType?: string | undefined;
+    inProgressStateKey?: string | undefined;
+    completedStateKey?: string | undefined;
+}, {
+    key: string;
+    type: "action" | "approval" | "branch" | "wait_for_event" | "complete";
+    actionKey?: string | undefined;
+    eventType?: string | undefined;
+    repeatable?: boolean | undefined;
+    inProgressStateKey?: string | undefined;
+    completedStateKey?: string | undefined;
+}>;
 export declare const workflowEdgeSchema: z.ZodObject<{
     from: z.ZodString;
     to: z.ZodString;
     when: z.ZodOptional<z.ZodObject<{
-        key: z.ZodEnum<{
-            always: "always";
-            "document.amount_gte": "document.amount_gte";
-            "document.fully_received": "document.fully_received";
-            "document.fully_fulfilled": "document.fully_fulfilled";
-            "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-            "approval.is_complete": "approval.is_complete";
-        }>;
+        key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
         args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-    }, z.core.$strip>>;
-}, z.core.$strip>;
+    }, "strip", z.ZodTypeAny, {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args: Record<string, unknown>;
+    }, {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args?: Record<string, unknown> | undefined;
+    }>>;
+}, "strip", z.ZodTypeAny, {
+    to: string;
+    from: string;
+    when?: {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args: Record<string, unknown>;
+    } | undefined;
+}, {
+    to: string;
+    from: string;
+    when?: {
+        key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+        args?: Record<string, unknown> | undefined;
+    } | undefined;
+}>;
 export declare const processWorkflowSchema: z.ZodObject<{
     stableKey: z.ZodString;
     version: z.ZodNumber;
@@ -325,35 +473,102 @@ export declare const processWorkflowSchema: z.ZodObject<{
     startNode: z.ZodString;
     nodes: z.ZodArray<z.ZodObject<{
         key: z.ZodString;
-        type: z.ZodEnum<{
-            action: "action";
-            approval: "approval";
-            branch: "branch";
-            wait_for_event: "wait_for_event";
-            complete: "complete";
-        }>;
+        type: z.ZodEnum<["action", "approval", "branch", "wait_for_event", "complete"]>;
         actionKey: z.ZodOptional<z.ZodString>;
         eventType: z.ZodOptional<z.ZodString>;
         repeatable: z.ZodDefault<z.ZodBoolean>;
         inProgressStateKey: z.ZodOptional<z.ZodString>;
         completedStateKey: z.ZodOptional<z.ZodString>;
-    }, z.core.$strip>>;
+    }, "strip", z.ZodTypeAny, {
+        key: string;
+        type: "action" | "approval" | "branch" | "wait_for_event" | "complete";
+        repeatable: boolean;
+        actionKey?: string | undefined;
+        eventType?: string | undefined;
+        inProgressStateKey?: string | undefined;
+        completedStateKey?: string | undefined;
+    }, {
+        key: string;
+        type: "action" | "approval" | "branch" | "wait_for_event" | "complete";
+        actionKey?: string | undefined;
+        eventType?: string | undefined;
+        repeatable?: boolean | undefined;
+        inProgressStateKey?: string | undefined;
+        completedStateKey?: string | undefined;
+    }>, "many">;
     edges: z.ZodDefault<z.ZodArray<z.ZodObject<{
         from: z.ZodString;
         to: z.ZodString;
         when: z.ZodOptional<z.ZodObject<{
-            key: z.ZodEnum<{
-                always: "always";
-                "document.amount_gte": "document.amount_gte";
-                "document.fully_received": "document.fully_received";
-                "document.fully_fulfilled": "document.fully_fulfilled";
-                "transfer.is_interwarehouse": "transfer.is_interwarehouse";
-                "approval.is_complete": "approval.is_complete";
-            }>;
+            key: z.ZodEnum<["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"]>;
             args: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-        }, z.core.$strip>>;
-    }, z.core.$strip>>>;
-}, z.core.$strip>;
+        }, "strip", z.ZodTypeAny, {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        }, {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        }>>;
+    }, "strip", z.ZodTypeAny, {
+        to: string;
+        from: string;
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        } | undefined;
+    }, {
+        to: string;
+        from: string;
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        } | undefined;
+    }>, "many">>;
+}, "strip", z.ZodTypeAny, {
+    stableKey: string;
+    version: number;
+    triggerEvent: string;
+    startNode: string;
+    nodes: {
+        key: string;
+        type: "action" | "approval" | "branch" | "wait_for_event" | "complete";
+        repeatable: boolean;
+        actionKey?: string | undefined;
+        eventType?: string | undefined;
+        inProgressStateKey?: string | undefined;
+        completedStateKey?: string | undefined;
+    }[];
+    edges: {
+        to: string;
+        from: string;
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args: Record<string, unknown>;
+        } | undefined;
+    }[];
+}, {
+    stableKey: string;
+    version: number;
+    triggerEvent: string;
+    startNode: string;
+    nodes: {
+        key: string;
+        type: "action" | "approval" | "branch" | "wait_for_event" | "complete";
+        actionKey?: string | undefined;
+        eventType?: string | undefined;
+        repeatable?: boolean | undefined;
+        inProgressStateKey?: string | undefined;
+        completedStateKey?: string | undefined;
+    }[];
+    edges?: {
+        to: string;
+        from: string;
+        when?: {
+            key: "always" | "document.amount_gte" | "document.fully_received" | "document.fully_fulfilled" | "transfer.is_interwarehouse" | "approval.is_complete";
+            args?: Record<string, unknown> | undefined;
+        } | undefined;
+    }[] | undefined;
+}>;
 export type DocumentType = (typeof documentTypes)[number];
 export type CanonicalDocumentStatus = (typeof canonicalDocumentStatuses)[number];
 export type ConditionKey = (typeof conditionKeys)[number];
