@@ -1,10 +1,4 @@
 import { z } from "zod";
-/**
- * Single source of truth for workflow/lifecycle enums and schemas.
- * Ported verbatim from backend src/shared/workflow/contract.ts.
- * Both the backend and the frontend template builder must import
- * from this package instead of re-declaring these values.
- */
 export const documentTypes = [
     "purchase_order",
     "goods_receipt",
@@ -88,8 +82,7 @@ export const workflowPermissions = [
     "production.mark_produced",
     "sales.dispatch"
 ];
-/** stableKey allows dots and hyphens (workflow/lifecycle keys), unlike the base `key` schema. */
-export const stableKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,127}$/);
+const stableKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,127}$/);
 export const conditionReferenceSchema = z.object({
     key: z.enum(conditionKeys),
     args: z.record(z.string(), z.unknown()).default({})

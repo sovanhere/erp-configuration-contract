@@ -1,18 +1,10 @@
 import { z } from "zod";
-/**
- * Single source of truth for workflow/lifecycle enums and schemas.
- * Ported verbatim from backend src/shared/workflow/contract.ts.
- * Both the backend and the frontend template builder must import
- * from this package instead of re-declaring these values.
- */
 export declare const documentTypes: readonly ["purchase_order", "goods_receipt", "sales_order", "stock_issue", "stock_transfer", "stock_adjustment", "inventory_posting"];
 export declare const canonicalDocumentStatuses: readonly ["DRAFT", "PENDING_APPROVAL", "APPROVED", "RELEASED", "CONFIRMED", "ALLOCATED", "PARTIAL", "PARTIALLY_SHIPPED", "SHIPPED", "POSTED", "CLOSED", "CANCELLED", "REVERSED"];
 export declare const conditionKeys: readonly ["always", "document.amount_gte", "document.fully_received", "document.fully_fulfilled", "transfer.is_interwarehouse", "approval.is_complete"];
 export declare const effectKeys: readonly ["purchase.submit", "purchase.record_approval", "purchase.create_receipt", "receipt.post", "sales.confirm", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "sales.cancel", "sales.submit", "sales.approve", "sales.mark_produced", "sales.mark_dispatched", "sales.complete", "issue.post", "issue.customer_return", "transfer.dispatch", "transfer.receive", "adjustment.post", "inventory.reverse", "outbox.emit"];
 export declare const inputSchemaKeys: readonly ["none", "purchase.approve", "purchase.create_receipt", "sales.allocate", "sales.create_issue", "sales.produced", "sales.dispatch", "inventory.reverse"];
 export declare const workflowPermissions: readonly ["purchase.create", "purchase.approve", "purchase.approve.level1", "purchase.approve.level2", "receipt.create", "receipt.post", "inventory.adjust", "inventory.transfer", "sales.create", "sales.confirm", "sales.allocate", "sales.issue", "sales.approve", "production.mark_produced", "sales.dispatch"];
-/** stableKey allows dots and hyphens (workflow/lifecycle keys), unlike the base `key` schema. */
-export declare const stableKey: z.ZodString;
 export declare const conditionReferenceSchema: z.ZodObject<{
     key: z.ZodEnum<{
         always: "always";
@@ -356,11 +348,8 @@ export declare const processWorkflowSchema: z.ZodObject<{
 }, z.core.$strip>;
 export type DocumentType = (typeof documentTypes)[number];
 export type CanonicalDocumentStatus = (typeof canonicalDocumentStatuses)[number];
-export type ConditionKey = (typeof conditionKeys)[number];
-export type EffectKey = (typeof effectKeys)[number];
-export type InputSchemaKey = (typeof inputSchemaKeys)[number];
-export type WorkflowPermission = (typeof workflowPermissions)[number];
+export type ConditionReference = z.infer<typeof conditionReferenceSchema>;
+export type EffectReference = z.infer<typeof effectReferenceSchema>;
 export type LifecycleDefinition = z.infer<typeof lifecycleDefinitionSchema>;
-export type ProcessWorkflow = z.infer<typeof processWorkflowSchema>;
 export type LifecycleTransition = z.infer<typeof lifecycleTransitionSchema>;
-export type ApprovalPolicy = z.infer<typeof approvalPolicySchema>;
+export type ProcessWorkflowDefinition = z.infer<typeof processWorkflowSchema>;

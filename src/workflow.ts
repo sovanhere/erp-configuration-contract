@@ -1,12 +1,5 @@
 import { z } from "zod";
 
-/**
- * Single source of truth for workflow/lifecycle enums and schemas.
- * Ported verbatim from backend src/shared/workflow/contract.ts.
- * Both the backend and the frontend template builder must import
- * from this package instead of re-declaring these values.
- */
-
 export const documentTypes = [
   "purchase_order",
   "goods_receipt",
@@ -96,8 +89,7 @@ export const workflowPermissions = [
   "sales.dispatch"
 ] as const;
 
-/** stableKey allows dots and hyphens (workflow/lifecycle keys), unlike the base `key` schema. */
-export const stableKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,127}$/);
+const stableKey = z.string().regex(/^[a-z][a-z0-9_.-]{1,127}$/);
 
 export const conditionReferenceSchema = z.object({
   key: z.enum(conditionKeys),
@@ -176,11 +168,8 @@ export const processWorkflowSchema = z.object({
 
 export type DocumentType = (typeof documentTypes)[number];
 export type CanonicalDocumentStatus = (typeof canonicalDocumentStatuses)[number];
-export type ConditionKey = (typeof conditionKeys)[number];
-export type EffectKey = (typeof effectKeys)[number];
-export type InputSchemaKey = (typeof inputSchemaKeys)[number];
-export type WorkflowPermission = (typeof workflowPermissions)[number];
+export type ConditionReference = z.infer<typeof conditionReferenceSchema>;
+export type EffectReference = z.infer<typeof effectReferenceSchema>;
 export type LifecycleDefinition = z.infer<typeof lifecycleDefinitionSchema>;
-export type ProcessWorkflow = z.infer<typeof processWorkflowSchema>;
 export type LifecycleTransition = z.infer<typeof lifecycleTransitionSchema>;
-export type ApprovalPolicy = z.infer<typeof approvalPolicySchema>;
+export type ProcessWorkflowDefinition = z.infer<typeof processWorkflowSchema>;

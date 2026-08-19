@@ -1,28 +1,7 @@
 import { z } from "zod";
-/**
- * Single source of truth for the master-data / catalog configuration draft
- * contract. Ported verbatim from backend
- * src/modules/configuration/configuration-contract.ts.
- *
- * IMPORTANT: this file previously existed as a hand-duplicated copy in the
- * frontend (src/lib/template-types.ts). That duplication is what caused the
- * regex/enum drift documented in the Phase 0 audit (UOM code format, key
- * format, missing skuPattern/serial-dimension/property-count checks, and
- * untyped workflow condition/effect/permission strings). Both repos must
- * import from here going forward — do not re-declare these values locally.
- */
 export declare const measurementCategories: readonly ["mass", "length", "area", "volume", "count", "time", "temperature"];
 export declare const propertyScopes: readonly ["product", "sku_forming", "sku_only", "lot", "serial", "handling_unit", "transaction"];
 export declare const relationshipModes: readonly ["independent_actual", "fixed_conversion", "proportional_handling_unit", "actual_measurement", "handling_unit_state"];
-export declare const propertyEntityTypes: readonly ["product", "sku", "lot", "handling_unit", "party", "warehouse", "location", "purchase_order", "purchase_order_line", "goods_receipt", "goods_receipt_line", "sales_order", "sales_order_line", "stock_issue", "transfer", "adjustment"];
-export declare const propertyDataTypes: readonly ["short_text", "long_text", "integer", "decimal", "boolean", "date", "datetime", "single_select", "multi_select", "entity_reference", "measurement"];
-export declare const valuationMethods: readonly ["MOVING_AVERAGE", "FIFO"];
-export declare const enabledModuleKeys: readonly ["catalog", "warehousing", "parties", "inventory", "procurement", "sales", "production", "replenishment", "reporting"];
-/** Base config-entity key: property, product type, role, location type. NOT for UOM codes or workflow/lifecycle keys — those have their own formats below. */
-export declare const key: z.ZodString;
-export declare const decimalString: z.ZodString;
-/** UOM codes are uppercase and must start with a letter — distinct from `key`. */
-export declare const uomCode: z.ZodString;
 export declare const uomSchema: z.ZodObject<{
     code: z.ZodString;
     name: z.ZodString;
@@ -128,7 +107,6 @@ export declare const dimensionSchema: z.ZodObject<{
         tolerance: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
 }, z.core.$strip>;
-/** skuPattern must additionally compile as a valid regex — enforce with assertSkuPatternValid() below in code that can't rely on Zod's .refine alone (kept separate for clearer error codes matching the backend's sku_pattern_invalid). */
 export declare const productTypeSchema: z.ZodObject<{
     stableKey: z.ZodString;
     name: z.ZodString;
@@ -207,7 +185,7 @@ export declare const productTypeSchema: z.ZodObject<{
         }, z.core.$strip>>;
     }, z.core.$strip>>;
 }, z.core.$strip>;
-export declare function assertSkuPatternValid(pattern: string | undefined): string | null;
+export declare function assertSkuPatternValid(pattern?: string | null): string | null;
 export declare const roleDefinitionSchema: z.ZodObject<{
     key: z.ZodString;
     label: z.ZodString;
@@ -220,25 +198,6 @@ export declare const locationTypeSchema: z.ZodObject<{
     stockEligible: z.ZodDefault<z.ZodBoolean>;
     allowsChildren: z.ZodDefault<z.ZodBoolean>;
 }, z.core.$strip>;
-export declare const defaultLocationTypes: ({
-    key: string;
-    label: string;
-    allowedParentTypes: string[];
-    stockEligible: true;
-    allowsChildren: true;
-} | {
-    key: string;
-    label: string;
-    allowedParentTypes: string[];
-    stockEligible: false;
-    allowsChildren: true;
-} | {
-    key: string;
-    label: string;
-    allowedParentTypes: string[];
-    stockEligible: true;
-    allowsChildren: false;
-})[];
 export declare const inventoryConfigurationSchema: z.ZodDefault<z.ZodObject<{
     valuationCurrency: z.ZodDefault<z.ZodString>;
     allowedValuationMethods: z.ZodDefault<z.ZodArray<z.ZodEnum<{
@@ -275,12 +234,12 @@ export declare const configurationDraftSchema: z.ZodObject<{
         plural: z.ZodString;
     }, z.core.$strip>>>;
     enabledModules: z.ZodArray<z.ZodEnum<{
+        inventory: "inventory";
+        sales: "sales";
         catalog: "catalog";
         warehousing: "warehousing";
         parties: "parties";
-        inventory: "inventory";
         procurement: "procurement";
-        sales: "sales";
         production: "production";
         replenishment: "replenishment";
         reporting: "reporting";
@@ -646,16 +605,17 @@ export declare const configurationDraftSchema: z.ZodObject<{
     }, z.core.$strip>>;
 }, z.core.$strip>;
 export type ConfigurationDraft = z.infer<typeof configurationDraftSchema>;
-export type UnitOfMeasure = z.infer<typeof uomSchema>;
-export type PropertyDefinition = z.infer<typeof propertySchema>;
-export type ProductType = z.infer<typeof productTypeSchema>;
-export type QuantityDimension = z.infer<typeof dimensionSchema>;
-export type RoleDefinition = z.infer<typeof roleDefinitionSchema>;
-export type LocationType = z.infer<typeof locationTypeSchema>;
-export type InventoryConfiguration = z.infer<typeof inventoryConfigurationSchema>;
-export type MeasurementCategory = (typeof measurementCategories)[number];
-export type PropertyScope = (typeof propertyScopes)[number];
-export type PropertyEntityType = (typeof propertyEntityTypes)[number];
-export type PropertyDataType = (typeof propertyDataTypes)[number];
-export type ValuationMethod = (typeof valuationMethods)[number];
-export type ModuleKey = (typeof enabledModuleKeys)[number];
+export type ProductTypeConfiguration = z.infer<typeof productTypeSchema>;
+export type QuantityDimensionConfiguration = z.infer<typeof dimensionSchema>;
+export type LocationTypeConfiguration = z.infer<typeof locationTypeSchema>;
+export interface CompiledConfiguration extends ConfigurationDraft {
+    compiledAt: string;
+    checksum: string;
+    indexes: {
+        productTypeByKey: Record<string, number>;
+        propertyByKey: Record<string, number>;
+        uomByCode: Record<string, number>;
+        lifecycleByKey: Record<string, number>;
+        workflowByKey: Record<string, number>;
+    };
+}
