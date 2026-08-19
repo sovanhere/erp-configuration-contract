@@ -201,3 +201,6 @@ export interface CompiledConfiguration extends ConfigurationDraft {
     workflowByKey: Record<string, number>;
   };
 }
+
+
+// sync-pipeline verification #1

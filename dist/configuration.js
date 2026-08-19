@@ -171,3 +171,4 @@ export const configurationDraftSchema = z.object({
     lifecycles: z.array(lifecycleDefinitionSchema),
     workflows: z.array(processWorkflowSchema)
 });
+// sync-pipeline verification #1
