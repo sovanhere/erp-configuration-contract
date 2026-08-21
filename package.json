@@ -1,6 +1,6 @@
 {
   "name": "@erp/configuration-contract",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Single source of truth for the master-data / catalog configuration draft schema, shared by Erp-backend and Erp-platform-onboarding.",
   "type": "module",
   "main": "./dist/index.js",

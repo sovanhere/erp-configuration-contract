@@ -59,6 +59,7 @@ export declare const propertySchema: z.ZodObject<{
         time: "time";
         temperature: "temperature";
     }>>;
+    appliesToPartyRoles: z.ZodOptional<z.ZodArray<z.ZodString>>;
     rules: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
     reportable: z.ZodDefault<z.ZodBoolean>;
     active: z.ZodDefault<z.ZodBoolean>;
@@ -191,6 +192,10 @@ export declare const roleDefinitionSchema: z.ZodObject<{
     label: z.ZodString;
     permissions: z.ZodDefault<z.ZodArray<z.ZodString>>;
 }, z.core.$strip>;
+export declare const partyRoleSchema: z.ZodObject<{
+    key: z.ZodString;
+    label: z.ZodString;
+}, z.core.$strip>;
 export declare const locationTypeSchema: z.ZodObject<{
     key: z.ZodString;
     label: z.ZodString;
@@ -248,6 +253,10 @@ export declare const configurationDraftSchema: z.ZodObject<{
         key: z.ZodString;
         label: z.ZodString;
         permissions: z.ZodDefault<z.ZodArray<z.ZodString>>;
+    }, z.core.$strip>>>;
+    partyRoles: z.ZodDefault<z.ZodArray<z.ZodObject<{
+        key: z.ZodString;
+        label: z.ZodString;
     }, z.core.$strip>>>;
     locationTypes: z.ZodDefault<z.ZodArray<z.ZodObject<{
         key: z.ZodString;
@@ -362,6 +371,7 @@ export declare const configurationDraftSchema: z.ZodObject<{
             time: "time";
             temperature: "temperature";
         }>>;
+        appliesToPartyRoles: z.ZodOptional<z.ZodArray<z.ZodString>>;
         rules: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
         reportable: z.ZodDefault<z.ZodBoolean>;
         active: z.ZodDefault<z.ZodBoolean>;
@@ -605,6 +615,7 @@ export declare const configurationDraftSchema: z.ZodObject<{
     }, z.core.$strip>>;
 }, z.core.$strip>;
 export type ConfigurationDraft = z.infer<typeof configurationDraftSchema>;
+export type PartyRoleConfiguration = z.infer<typeof partyRoleSchema>;
 export type ProductTypeConfiguration = z.infer<typeof productTypeSchema>;
 export type QuantityDimensionConfiguration = z.infer<typeof dimensionSchema>;
 export type LocationTypeConfiguration = z.infer<typeof locationTypeSchema>;

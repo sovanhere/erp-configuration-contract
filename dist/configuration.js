@@ -40,6 +40,7 @@ export const propertySchema = z.object({
     ]),
     dataType: z.enum(["short_text", "long_text", "integer", "decimal", "boolean", "date", "datetime", "single_select", "multi_select", "entity_reference", "measurement"]),
     measurementCategory: z.enum(measurementCategories).optional(),
+    appliesToPartyRoles: z.array(key).optional(),
     rules: z.record(z.string(), z.unknown()).default({}),
     reportable: z.boolean().default(false),
     active: z.boolean().default(true)
@@ -104,6 +105,14 @@ export const roleDefinitionSchema = z.object({
     label: z.string().min(1).max(160),
     permissions: z.array(z.string().min(1).max(160)).default([])
 });
+export const partyRoleSchema = z.object({
+    key,
+    label: z.string().min(1).max(160)
+});
+const defaultPartyRoles = [
+    { key: "supplier", label: "Supplier" },
+    { key: "customer", label: "Customer" }
+];
 export const locationTypeSchema = z.object({
     key,
     label: z.string().min(1).max(160),
@@ -162,6 +171,7 @@ export const configurationDraftSchema = z.object({
     terminology: z.record(z.string(), z.object({ singular: z.string(), plural: z.string() })).default({}),
     enabledModules: z.array(z.enum(["catalog", "warehousing", "parties", "inventory", "procurement", "sales", "production", "replenishment", "reporting"])),
     roles: z.array(roleDefinitionSchema).default([]),
+    partyRoles: z.array(partyRoleSchema).min(1).default([...defaultPartyRoles]),
     locationTypes: z.array(locationTypeSchema).min(2).default([...defaultLocationTypes]),
     inventory: inventoryConfigurationSchema,
     sales: salesConfigurationSchema,
